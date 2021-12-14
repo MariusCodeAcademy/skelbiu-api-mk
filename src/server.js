@@ -28,6 +28,8 @@ const app = express();
 app.use(morgan('common'));
 app.use(cors());
 app.use(express.json());
+console.log('path', path.resolve('public', 'uploads'));
+app.use('/skelbiu-img', express.static(path.resolve('public', 'uploads')));
 
 app.get('/', (req, res) => {
   res.send('Hello express');
@@ -36,6 +38,9 @@ app.get('/', (req, res) => {
 app.post('/api/new-listing', upload.single('mainImage'), (req, res) => {
   console.log('req.body ===', req.body);
   console.log('req.file ===', req.file);
+  if (req.file.size >= 500000) {
+    res.status(400).json({ error: 'Too big' });
+  }
   res.json({ msg: 'image saved', data: req.file.filename });
 });
 
