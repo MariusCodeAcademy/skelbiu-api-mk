@@ -22,6 +22,10 @@ app.get('/', (req, res) => {
   res.send('Hello express');
 });
 
+app.get('/testing', (req, res) => {
+  res.send({ msg: 'success', data: [1, 2, 3] });
+});
+
 const listingsRoutes = require('./routes/v1/listing');
 
 app.use('/', listingsRoutes);
